@@ -1,6 +1,6 @@
 {
   "name": "scalajs-material-js",
-  "version": "1.0",
+  "version": "2.3.0",
   "description": "The ScalaJs Material Js",
   "repository": {
     "type": "git",
@@ -27,6 +27,7 @@
   "dependencies": {
     "react": "15.6.1",
     "react-dom": "15.6.1",
+    "react-tap-event-plugin": "2.0.1",
     "react-split-pane": "0.1.66",
     "jquery": "2.1.4",
     "material-ui": "0.19.2"

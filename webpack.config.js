@@ -20,11 +20,6 @@ module.exports = {
 
     devtool: "source-map",
 
-    devServer: {
-        port: 8090,
-        clientLogLevel: "info"
-    },
-
     plugins: [
         new CleanWebPackPlugin('target/assets'),
         new webpack.NoEmitOnErrorsPlugin(),
