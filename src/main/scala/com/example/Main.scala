@@ -19,17 +19,13 @@ object Main extends js.JSApp {
     val component = ScalaComponent.builder[Unit]("MuiAppBarDemo")
       .render(P =>
         <.div(
-          MuiAppBar(
+            MuiAppBar (
             title = "Title",
             showMenuIconButton = true
-          )()
+            ) ()
         )
       ).build
 
     component().renderIntoDOM(dom.document.getElementById("playground"))
-
-    /*jQuery(()=>{
-      jQuery("body").append("KJHGJHGKJg")
-    })*/
   }
 }

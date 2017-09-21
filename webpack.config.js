@@ -1,37 +1,89 @@
 'use strict';
 
+var path = require("path");
 var webpack = require('webpack');
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin;
+
+const CleanWebPackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
 
     entry: {
-        index: 'bundles/index.js',
-        material_ui: 'bundles/material-ui.js'
+        index: './bundles/index.js',
+        app: './target/app.js'
     },
+
     output: {
-        path: __dirname + '/assets',
+        path: path.resolve(__dirname, 'target/assets'),
         publicPath: "/assets/",
         filename: '[name]-bundle.js'
     },
+
+    devtool: "source-map",
+
+    devServer: {
+        port: 8090,
+        clientLogLevel: "info"
+    },
+
     plugins: [
-        new webpack.NoErrorsPlugin(),
-        new CommonsChunkPlugin({
-            name: "index"
+        new CleanWebPackPlugin('target/assets'),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new webpack.ProvidePlugin({
+            $: 'jquery',
+            jQuery: 'jquery'
         })
     ],
+
     module: {
         loaders: [
             {
                 test: /\.css$/,
-                loader: 'style-loader!css-loader'
+                use: [
+                    {
+                        loader: 'style-loader'
+                    },
+                    {
+                        loader: 'css-loader'
+                    }
+                ]
             },
+
+            {
+                test: /\.woff2?$|\.ttf$|\.eot$|\.svg$/,
+                use: [{
+                    loader: "file-loader"
+                }]
+            },
+
             {
                 test: /\.(png|jpg|svg)$/,
-                loaders: [
-                    'url-loader?limit=8192',
-                    'image-webpack?optimizationLevel=7&progressive=true']
-            } // inline base64 URLs for <=8k images, direct URLs for the rest
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            query: {
+                                limit: '8192'
+                            }
+                        }
+                    },
+                    {
+                        loader: 'image-webpack-loader',
+                        options: {
+                            query: {
+                                mozjpeg: {
+                                    progressive: true
+                                },
+                                gifsicle: {
+                                    interlaced: true
+                                },
+                                optipng: {
+                                    optimizationLevel: 7
+                                }
+                            }
+                        }
+                    }
+                ]
+            }
         ]
     }
 };
